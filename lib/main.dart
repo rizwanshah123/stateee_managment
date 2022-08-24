@@ -1,34 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
 import 'package:flutter/material.dart';
-
-class MyInheritedWidget extends InheritedWidget {
-  final AppStateWidgetState state;
-
-  const MyInheritedWidget(
-      {super.key, required super.child, required this.state});
-
-  static AppStateWidgetState? of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>()?.state;
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
-}
-
-class AppStateWidget extends StatefulWidget {
-  final Widget child;
-  const AppStateWidget({super.key, required this.child});
-
-  @override
-  State<StatefulWidget> createState() => AppStateWidgetState();
-}
-
-class AppStateWidgetState extends State<AppStateWidget> {
-  String user = 'Rizwan shah';
-
-  updateUser(String newUser) => setState(() => user = newUser);
-  @override
-  Widget build(BuildContext context) {
-    return MyInheritedWidget(state: this, child: widget.child);
-  }
-}
+import 'package:image_picker/image_picker.dart';
+import 'package:state_managment/user.dart';
+import 'state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +29,9 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
- final  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+
+  Home({super.key});
   @override
   Widget build(BuildContext context) {
     var appState = MyInheritedWidget.of(context);
@@ -69,20 +47,35 @@ class Home extends StatelessWidget {
                 decoration: const InputDecoration(hintText: 'enter namne '),
               ),
             ),
-            Text(
-              appState!.user,
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
+            if (appState!.user != null)
+              Text(
+                appState.user!.name,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
             Padding(
               padding: const EdgeInsets.all(50.0),
               child: ElevatedButton(
                   onPressed: () {
-                    appState.updateUser(_controller.text.toString());
-                    _controller.clear();
+                    imagePicker(context);
                   },
-                  child: Text('update')),
-            )
+                  child: const Text('update')),
+            ),
+            if (appState.user != null)
+              Image.file(
+                appState.user!.file,
+                width: 300,
+                height: 200,
+              ),
           ],
         ));
+  }
+
+  imagePicker(BuildContext context) async {
+    final ImagePicker imagePicker = ImagePicker();
+    final XFile? image =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    var myAppState = MyInheritedWidget.of(context);
+    myAppState!.updateUser( _controller.text.toString(), File(image!.path));
+    _controller.clear();
   }
 }
