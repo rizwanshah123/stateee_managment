@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:state_managment/cart_example.dart/states/home_page.dart';
-import 'cart_example.dart/states/app_state.dart';
+import 'package:state_managment/todo_app/screen/home_page_todo.dart';
+import 'package:state_managment/todo_app/state/app_state.dart';
+import 'cart_example/states/app_state.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,13 +13,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return AppState(
+    return TodoApp(
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage(),
+        home: TodoDataInput(),
       ),
     );
   }
