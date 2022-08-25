@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:state_managment/cart_example.dart/item.dart';
-import 'package:state_managment/cart_example.dart/states/app_state.dart';
+import 'package:state_managment/cart_example/item.dart';
+import 'package:state_managment/cart_example/states/app_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
