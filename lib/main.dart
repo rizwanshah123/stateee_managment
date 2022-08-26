@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:state_managment/todo_app/screen/home_page_todo.dart';
-import 'package:state_managment/todo_app/state/app_state.dart';
-import 'cart_example/states/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:state_managment/provider/carttt_example/state/count_app_provider.dart';
+import 'package:state_managment/provider/carttt_example/state/my_app_state.dart';
+import 'package:state_managment/provider/carttt_example/view/home_page.dart';
+
+import 'provider/carttt_example/view/count_app.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,13 +16,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return TodoApp(
+    return ChangeNotifierProvider<CountState>(
+      create: (BuildContext context) {
+        return CountState();
+      },
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: TodoDataInput(),
+        home: CountApp(),
       ),
     );
   }
